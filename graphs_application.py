@@ -5,14 +5,13 @@ Imports physics citation graph
 """
 
 # general imports
+from ER import ER
+from DPA import dpa
 from graphs import in_degree_distribution
 from fractions import Fraction
 import matplotlib.pyplot as pyplot
+import random
 
-
-# Set timeout for CodeSkulptor if necessary
-# import codeskulptor
-# codeskulptor.set_timeout(20)
 
 class DegreeDistribution(object):
 
@@ -63,22 +62,53 @@ def load_graph(graph_url):
     return answer_graph
 
 
-citation_graph = load_graph(CITATION_URL)
+def out_degree_average(graph):
+    total_degrees = sum(len(graph[node]) for node in graph)
+    return total_degrees / float(len(graph.keys()))
+
+
+#citation_graph = load_graph(CITATION_URL)
 # # print len(set(citation_graph.keys()))
 # s = set.union(*citation_graph.values())
 # print in_degree_distribution(citation_graph).items()
 #
 #
 
-d = DegreeDistribution(citation_graph)
+#d = DegreeDistribution(citation_graph)
 
-d.normalise()
+#d.normalise()
 # print d.distribution
 # print d.keys()
 # print d.normalised_values()
 
-pyplot.loglog(d.keys(), d.normalised_values(), 'r.', basex=10, basey=10)
+# fig1 = pyplot.figure()
+# pyplot.loglog(d.keys(), d.normalised_values(), 'r.', basex=10, basey=10)
 # pyplot.title("log/log plot points of normalised in-degree distribution\n (base 10)")
 # pyplot.xlabel("in-degree")
 # pyplot.ylabel("occurences (normalised)")
-pyplot.show()
+# pyplot.savefig("normalised.png")
+#
+# fig2 = pyplot.figure()
+# n = random.randrange(250, 500)
+# p = random.uniform(0, 1)
+# d = DegreeDistribution(ER(n, p))
+# d.normalise()
+# pyplot.loglog(d.keys(), d.normalised_values(), 'r.', basex=10, basey=10)
+# pyplot.title("log/log plot points of normalised in-degree distribution for ER graph \n n = {}, p = {}".format(n, p))
+# pyplot.xlabel("in-degree")
+# pyplot.ylabel("occurences (normalised)")
+# pyplot.savefig("ER.png")
+
+fig3 = pyplot.figure()
+n = 27770
+m = 13
+graph = dpa(m, n)
+print "done"
+
+d = DegreeDistribution(graph)
+d.normalise()
+pyplot.loglog(d.keys(), d.normalised_values(), 'r.', basex=10, basey=10)
+pyplot.title("log/log plot points of normalised in-degree distribution for DPA graph \n n = {}, m = {}".format(n, m))
+pyplot.xlabel("in-degree")
+pyplot.ylabel("occurences (normalised)")
+pyplot.savefig("DPA.png")
