@@ -47,10 +47,11 @@ class TestEverything(TestCase):
         self.assertEqual(compute_resilience(self.graph1, [2]),
                          [3, 2])
         self.assertEqual(compute_resilience(self.graph2, [0]),
-                         [10, 9])
+                         [10, 3])
         self.assertEqual(compute_resilience(self.graph2, [1]),
                          [10, 7])
         self.assertEqual(compute_resilience(self.graph2, [1, 2]),
                          [10, 7, 4])
         self.assertEqual(compute_resilience(self.graph2, [1, 2, 3]),
                          [10, 7, 4, 1])
+
