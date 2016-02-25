@@ -2,7 +2,7 @@
 Algorithmic Thinking Module 2
 """
 from collections import deque
-
+from copy import deepcopy
 
 def enqueue(queue, node):
     """
@@ -68,19 +68,15 @@ def largest_cc_size(ugraph):
         return max(len(component) for component in cc_visited(ugraph))
     return 0
 
+
 def compute_resilience(ugraph, attack_order):
-    """
-    Get resilience of graph
-    :param ugraph:
-    :param attack_order:
-    :return:
-    """
-    if not attack_order:
-        return [largest_cc_size(ugraph)]
-    if not isinstance(attack_order, deque):
-        attack_order = deque(attack_order)
-    next_node = attack_order.popleft()
-    smaller_graph = {k: v - {next_node} for k, v in ugraph.iteritems() if
-                     k != next_node}
-    return [largest_cc_size(ugraph)] + compute_resilience(smaller_graph,
-                                                          attack_order)
+    smaller_graph = deepcopy(ugraph)
+    attack_copy = deque(deepcopy(attack_order))
+    resilience = [largest_cc_size(ugraph)]
+    while attack_copy:
+        next_node = attack_copy.popleft()
+        smaller_graph = {k: v - {next_node} for
+                         k, v in smaller_graph.iteritems() if
+                         k != next_node}
+        resilience.append(largest_cc_size(smaller_graph))
+    return resilience
