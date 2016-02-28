@@ -52,6 +52,12 @@ class Cluster:
         """
         return self._vert_center
 
+    def center(self):
+        """
+        Get the averaged center of the cluster
+        """
+        return self.horiz_center(), self.vert_center()
+
     def total_population(self):
         """
         Get the total population for the cluster
